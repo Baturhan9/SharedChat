@@ -1,0 +1,23 @@
+# Папки и файлы, которые нужно игнорировать
+bin/
+obj/
+*.userprefs
+*.suo
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+
+# Папка .vscode
+.vscode/
+
+# Папка node_modules (если используется npm)
+node_modules/
+
+# Папка bin и obj для проектов .NET Core
+**/bin/
+**/obj/
+
+# Папка Debug в корне проекта
+Debug/

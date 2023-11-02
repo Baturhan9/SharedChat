@@ -1,8 +1,29 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Shared Chat";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="text-center">@ViewData["Title"]</h1>
+<form method="post">
+<div class="panel-center">
+    <h2 class="text-center">Enter Name</h2>
+    <input class="input" type="text" name="userName"/>
+    <button class="btn btn-lg" type="submit">Log in</button>
 </div>
+</form>
+
+
+
+<style>
+    .text-center{
+        text-align: center;
+    }
+
+    .panel-center{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>

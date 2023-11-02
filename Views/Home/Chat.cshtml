@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = $"Hello user {ViewData["Hello"]}";
+}
+<a class="btn btn-lg" asp-action="Exit">Exit</a>
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<style>
+    .text-center{
+        text-align: center;
+    }
+</style>

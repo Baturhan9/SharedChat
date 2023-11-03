@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SharedChatWebSite.Models;
+using SharedChatWebSite.Repository;
 using SharedChatWebSite.Services;
 
 namespace SharedChatWebSite.Controllers;
@@ -8,9 +9,11 @@ namespace SharedChatWebSite.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IMessageRepository _repository;
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
+        _repository = new MessageRepository();
     }
 
     public IActionResult Index() => View();
@@ -25,7 +28,19 @@ public class HomeController : Controller
     public IActionResult Chat()
     {
         ViewData["Hello"] = HttpContext.Request.Cookies["userId"];
-        return View();
+        var messages = _repository.GetAll();
+        return View(messages);
+    }
+    [HttpPost]
+    public IActionResult Chat(string userText)
+    {
+        if(string.IsNullOrEmpty(userText))
+        {
+            ViewBag.Empty = "Message must be not empty";
+            return RedirectToAction("Chat");
+        }
+        _repository.Create(userText, HttpContext.Request.Cookies["userId"]);
+        return RedirectToAction("Chat");
     }
 
     public IActionResult Privacy()

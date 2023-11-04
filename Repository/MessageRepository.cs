@@ -13,6 +13,7 @@ public class MessageRepository : IMessageRepository
             UserId = userId,
             Text = text 
         };
+        DeleteFirst();
         Config.Messages.Add(message);
     }
 
@@ -25,5 +26,13 @@ public class MessageRepository : IMessageRepository
     {
         return Config.Messages.Where(x => x.UserId == userId)
                               .OrderByDescending(x=> x.DateCreate).ToList();
+    }
+
+    private void DeleteFirst()
+    {
+        if(Config.Messages.Count > 20)
+        {
+            Config.Messages.RemoveAt(0);
+        }
     }
 }

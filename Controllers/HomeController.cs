@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using SharedChatWebSite.Models;
 using SharedChatWebSite.Repository;
 using SharedChatWebSite.Services;
+using SharedChatWebSite.StorageMessages;
 
 namespace SharedChatWebSite.Controllers;
 
@@ -10,10 +12,14 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IMessageRepository _repository;
-    public HomeController(ILogger<HomeController> logger)
+    private readonly IMemoryCache _cache;
+    private readonly MessageService _service;
+    public HomeController(ILogger<HomeController> logger, IMemoryCache cache)
     {
         _logger = logger;
         _repository = new MessageRepository();
+        _cache = cache;
+        _service = new MessageService(_cache); 
     }
 
     public IActionResult Index() => View();
@@ -23,6 +29,7 @@ public class HomeController : Controller
     {
         string userId = IdService.GetId(userName);
         HttpContext.Response.Cookies.Append("userId", userId.ToString());
+        Config.Messages = _service.GetAllMessagesFromCache();
         return RedirectToAction("Chat");
     }
     public IActionResult Chat()
@@ -40,6 +47,7 @@ public class HomeController : Controller
             return RedirectToAction("Chat");
         }
         _repository.Create(userText, HttpContext.Request.Cookies["userId"]);
+        _service.SetMessagesInServer();
         return RedirectToAction("Chat");
     }
 
@@ -51,6 +59,7 @@ public class HomeController : Controller
     public IActionResult Exit()
     {
         HttpContext.Response.Cookies.Delete("userId");
+        _cache.Set("message", Config.Messages);
         return RedirectToAction("Index");
     }
 

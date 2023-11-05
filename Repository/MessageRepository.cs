@@ -19,18 +19,20 @@ public class MessageRepository : IMessageRepository
 
     public List<Message> GetAll()
     {
-        return Config.Messages.OrderByDescending(x => x.DateCreate).ToList();
+        return Config.Messages.OrderByDescending(x => x.DateCreate).Take(20).ToList();
     }
 
     public List<Message> GetUsersAll(string userId)
     {
         return Config.Messages.Where(x => x.UserId == userId)
-                              .OrderByDescending(x=> x.DateCreate).ToList();
+                              .OrderByDescending(x=> x.DateCreate)
+                              .Take(10)
+                              .ToList();
     }
 
     private void DeleteFirst()
     {
-        if(Config.Messages.Count > 20)
+        if(Config.Messages.Count > 100)
         {
             Config.Messages.RemoveAt(0);
         }

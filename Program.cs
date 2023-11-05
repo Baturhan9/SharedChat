@@ -23,6 +23,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseMiddleware<CacheMiddleware>();
 app.UseMiddleware<CookiesMiddleware>();
 
 app.MapControllerRoute(

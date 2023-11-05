@@ -15,8 +15,6 @@ public class MessageService
 
     public List<Message> GetAllMessagesFromCache()
     {
-
-        
         _cache.TryGetValue("message", out List<Message>? messages);
         if(messages == null)
         {
@@ -31,7 +29,7 @@ public class MessageService
         }
         return messages ?? new List<Message>();
     }
-
+    
     public void SetMessagesInServer()
     {
         using(FileStream fs = new FileStream("messages.json", FileMode.Truncate))
@@ -39,4 +37,5 @@ public class MessageService
             JsonSerializer.Serialize<List<Message>>(fs,Config.Messages);
         }
     }
+
 }

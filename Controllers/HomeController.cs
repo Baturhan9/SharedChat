@@ -51,6 +51,13 @@ public class HomeController : Controller
         return RedirectToAction("Chat");
     }
 
+    public IActionResult YourMessage()
+    {
+        var userId = HttpContext.Request.Cookies["userId"];
+        var messages = _repository.GetUsersAll(userId);
+        return View(messages);
+    }
+
     public IActionResult Privacy()
     {
         return View();

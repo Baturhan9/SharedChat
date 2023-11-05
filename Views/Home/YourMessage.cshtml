@@ -1,9 +1,7 @@
 @model List<Message>;
 @{
-    ViewData["Title"] = $"Hello user {ViewData["Hello"]}";
 }
 <a class="btn btn-lg" asp-action="Exit">Exit</a>
-<h1 class="text-center">@ViewData["Title"]</h1>
 <div class="center">
     <div class=".chat-panel">
         @foreach(var item in @Model)
@@ -11,13 +9,6 @@
             <p>@item.UserId --> @item.Text : <i>@item.DateCreate</i></p>
         }
     </div>
-    <form method="post">
-        <input class="col-form-label col-form-label-lg mt-4" type="text" name="userText"/>
-        <span>@ViewBag.Empty</span>
-        <button type="submit" class="btn btn-success btn-lg">Send --></button>
-    </form>   
-    <p></p>
-    <a class="btn btn-info" asp-action="YourMessage">See your messages</a>
 </div>
 
 <style> 
